@@ -191,8 +191,8 @@ export const Hero: React.FC<HeroProps> = ({ onReplayIntro }) => {
           <p className="font-sans text-base sm:text-lg text-slate-300 max-w-xl leading-relaxed">
             {PORTFOLIO_CONTENT.personal.missionStatement}
           </p>
-
-          {/* Interactive Galaxy Warp Trigger Button */}
+{/* 
+          Interactive Galaxy Warp Trigger Button
           <div className="w-full max-w-md pt-1">
             <button
               onClick={handleGalaxyWarp}
@@ -206,7 +206,7 @@ export const Hero: React.FC<HeroProps> = ({ onReplayIntro }) => {
               </span>
               <Zap className="w-4 h-4 text-hud-amber group-hover:translate-x-1 transition-transform" />
             </button>
-          </div>
+          </div> */}
 
           {/* Primary Action Buttons: "View My Work" & "Download Resume" */}
           <div className="flex flex-wrap items-center gap-3 pt-1 font-mono text-xs">
