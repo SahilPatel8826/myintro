@@ -168,7 +168,7 @@ export const Hero: React.FC<HeroProps> = ({ onReplayIntro }) => {
             <span className="font-mono text-xs sm:text-sm text-slate-400 uppercase tracking-[0.22em] font-medium mb-1">
               {PORTFOLIO_CONTENT.personal.callsign}
             </span>
-            <h1 className="font-display font-black text-5xl sm:text-7xl lg:text-8xl tracking-tight text-white uppercase leading-[1.05]">
+            <h1 className="font-display font-black text-5xl sm:text-7xl lg:text-7xl tracking-tight text-white uppercase leading-[1.05]">
               {/* <span className="text-white block sm:inline">Hi, I'm </span> */}
               <span className="animated-gradient-text text-transparent bg-clip-text bg-gradient-to-r from-hud-cyan via-purple-400 to-hud-teal">
                 Sahil Patel
