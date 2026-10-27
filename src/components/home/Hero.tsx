@@ -300,9 +300,7 @@ export const Hero: React.FC<HeroProps> = ({ onReplayIntro }) => {
               </div>
 
               {/* Black Hole Label */}
-              <div className="absolute -bottom-5 left-1/2 -translate-x-1/2 px-2 py-0.5 rounded bg-space-950/90 border border-hud-cyan/40 backdrop-blur-md text-[9px] font-mono text-hud-cyan tracking-widest whitespace-nowrap shadow-md">
-                SINGULARITY_GATE // 0x01
-              </div>
+              
             </div>
 
             {/* ASTRONAUT OVERLOOKING EARTH - HOLOGRAPHIC COMPOSITE VIEWPORT */}
