@@ -228,7 +228,7 @@ export const Hero: React.FC<HeroProps> = ({ onReplayIntro }) => {
               <span>DOWNLOAD RESUME</span>
             </button>
 
-            {/* Replay Intro Button */}
+            {/* Replay Intro Button
             <button
               onClick={onReplayIntro}
               className="px-5 py-3.5 rounded-full bg-hud-cyan/10 hover:bg-hud-cyan/20 text-hud-cyan border border-hud-cyan/40 tracking-widest uppercase transition-all flex items-center gap-2 cursor-pointer"
@@ -236,7 +236,7 @@ export const Hero: React.FC<HeroProps> = ({ onReplayIntro }) => {
             >
               <Play className="w-3.5 h-3.5 fill-hud-cyan" />
               <span>REPLAY INTRO</span>
-            </button>
+            </button> */}
           </div>
 
           {/* Orbital Telemetry Counters */}
