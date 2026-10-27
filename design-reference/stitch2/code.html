@@ -1,0 +1,1039 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_standard" name="shell-type"/><title>Sahil // Backend Architect - Interstellar Terminal</title><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;family=Space+Grotesk:wght@500;600;700&amp;family=Space+Mono:ital,wght@0,400;0,700;1,400&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}
+/* Spacecraft & Black Hole FX */
+@keyframes blackHoleSpin {
+  0% { transform: rotate(0deg) scale(1); }
+  50% { transform: rotate(180deg) scale(1.05); }
+  100% { transform: rotate(360deg) scale(1); }
+}
+@keyframes accretionPulse {
+  0%, 100% { opacity: 0.65; filter: blur(8px) brightness(1); }
+  50% { opacity: 0.95; filter: blur(6px) brightness(1.35); }
+}
+@keyframes thrusterFlicker {
+  0%, 100% { transform: scaleY(1); opacity: 0.85; }
+  50% { transform: scaleY(1.4) scaleX(1.1); opacity: 1; }
+}
+@keyframes shipFloat {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-8px) rotate(-1.5deg); }
+}
+@keyframes warpGlowPulse {
+  0%, 100% { box-shadow: 0 0 15px rgba(208,188,255,0.4), inset 0 0 10px rgba(76,215,246,0.3); }
+  50% { box-shadow: 0 0 35px rgba(76,215,246,0.8), inset 0 0 18px rgba(251,171,255,0.6); }
+}
+.warp-btn-glow {
+  animation: warpGlowPulse 2.8s infinite ease-in-out;
+}
+.ship-idle-animation {
+  animation: shipFloat 4.5s ease-in-out infinite;
+}
+.black-hole-disk {
+  animation: blackHoleSpin 24s linear infinite;
+}
+.accretion-glow {
+  animation: accretionPulse 3.5s ease-in-out infinite;
+}
+.thruster-plume {
+  animation: thrusterFlicker 0.12s infinite alternate ease-in-out;
+}
+</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"primary-fixed-dim":"#d0bcff","inverse-surface":"#e1e1f1","surface":"#11131d","error-container":"#93000a","outline-variant":"#494454","on-background":"#e1e1f1","inverse-primary":"#6d3bd7","on-tertiary-fixed-variant":"#7c008e","tertiary":"#fbabff","on-primary-fixed":"#23005c","on-error-container":"#ffdad6","surface-variant":"#323440","outline":"#958ea0","on-secondary-container":"#00424e","on-secondary-fixed":"#001f26","surface-container-high":"#272935","tertiary-fixed-dim":"#fbabff","on-surface":"#e1e1f1","secondary":"#4cd7f6","surface-bright":"#373944","secondary-container":"#03b5d3","inverse-on-surface":"#2e303b","surface-tint":"#d0bcff","on-tertiary":"#580065","on-surface-variant":"#cbc3d7","on-primary":"#3c0091","on-primary-fixed-variant":"#5516be","on-tertiary-container":"#4d0059","secondary-fixed":"#acedff","primary":"#d0bcff","tertiary-fixed":"#ffd6fd","tertiary-container":"#e14ef6","surface-container":"#1d1f2a","surface-container-highest":"#323440","surface-dim":"#11131d","surface-container-low":"#191b26","primary-fixed":"#e9ddff","primary-container":"#a078ff","error":"#ffb4ab","background":"#11131d","secondary-fixed-dim":"#4cd7f6","on-tertiary-fixed":"#36003e","surface-container-lowest":"#0b0e18","on-primary-container":"#340080","on-error":"#690005","on-secondary-fixed-variant":"#004e5c","on-secondary":"#003640"},borderRadius:{DEFAULT:"0.25rem",lg:"0.5rem",xl:"0.75rem",full:"9999px"},spacing:{"margin":"3rem","gutter":"1.5rem","margin-mobile":"1.25rem","space-md":"1rem","space-2xl":"4rem","space-xs":"0.25rem","space-lg":"1.5rem","space-sm":"0.5rem","gutter-mobile":"1rem","space-xl":"2.5rem"},fontFamily:{"label-code":["Space Mono"],"display-xl":["Space Grotesk"],"headline-md":["Space Grotesk"],"body-md":["Plus Jakarta Sans"],"headline-lg-mobile":["Space Grotesk"],"body-lg":["Plus Jakarta Sans"],"body-sm":["Plus Jakarta Sans"],"display-xl-mobile":["Space Grotesk"],"label-hud":["Space Mono"],"title-lg":["Space Grotesk"],"headline-lg":["Space Grotesk"]},fontSize:{"label-code":["11px",{lineHeight:"14px",letterSpacing:"0.08em",fontWeight:"400"}],"display-xl":["72px",{lineHeight:"80px",letterSpacing:"-0.03em",fontWeight:"700"}],"headline-md":["28px",{lineHeight:"36px",fontWeight:"600"}],"body-md":["15px",{lineHeight:"24px",fontWeight:"400"}],"headline-lg-mobile":["32px",{lineHeight:"40px",letterSpacing:"-0.01em",fontWeight:"600"}],"body-lg":["18px",{lineHeight:"28px",fontWeight:"400"}],"body-sm":["13px",{lineHeight:"20px",fontWeight:"400"}],"display-xl-mobile":["40px",{lineHeight:"48px",letterSpacing:"-0.02em",fontWeight:"700"}],"label-hud":["12px",{lineHeight:"16px",letterSpacing:"0.15em",fontWeight:"700"}],"title-lg":["20px",{lineHeight:"28px",fontWeight:"500"}],"headline-lg":["48px",{lineHeight:"56px",letterSpacing:"-0.02em",fontWeight:"600"}]}}}};</script></head><body class="bg-background font-body-md text-body-md text-on-surface min-h-screen selection:bg-primary-container selection:text-on-primary-container antialiased"><header class="fixed top-0 left-0 w-full z-50 bg-surface/75 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.4)]"><div class="h-20 w-full px-margin flex items-center justify-between gap-space-lg"><div class="flex items-center gap-space-md"><a class="flex items-center gap-space-sm group" data-path="portfolio-core" href="#"><div class="w-10 h-10 rounded-lg bg-surface-container-high flex items-center justify-center text-secondary shadow-[0_0_15px_rgba(76,215,246,0.2)] group-hover:shadow-[0_0_20px_rgba(76,215,246,0.4)] transition-all"><span class="material-symbols-outlined text-title-lg">terminal</span></div><div class="flex flex-col"><span class="font-title-lg text-title-lg text-on-surface tracking-tight uppercase group-hover:text-secondary transition-colors">SAHIL</span><span class="font-label-code text-label-code text-secondary tracking-widest">// BACKEND_ORBITAL</span></div></a><div class="hidden xl:flex items-center gap-space-xs pl-space-lg text-on-surface-variant"><span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span><span class="font-label-code text-label-code text-secondary uppercase">SYS: ONLINE</span><span class="font-label-code text-label-code text-outline">///</span><span class="font-label-code text-label-code text-outline">TELEMETRY: STABLE</span></div></div><nav class="hidden lg:flex items-center gap-space-xs bg-surface-container-low/80 p-1.5 rounded-full shadow-[0_0_12px_rgba(0,0,0,0.5)]" data-active-classes="bg-primary-container text-on-primary-container rounded-full shadow-[0_0_15px_rgba(160,120,255,0.35)]"><a aria-current="page" class="px-space-md py-space-xs font-label-hud transition-all bg-primary-container text-on-primary-container rounded-full shadow-[0_0_15px_rgba(160,120,255,0.35)]" data-path="portfolio-core" href="#">HERO</a><a class="px-space-md py-space-xs rounded-full font-label-hud text-label-hud text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="about-spec" href="#">ABOUT</a><a class="px-space-md py-space-xs rounded-full font-label-hud text-label-hud text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="skills-matrix" href="#">SKILLS</a><a class="px-space-md py-space-xs rounded-full font-label-hud text-label-hud text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="projects-grid" href="#">PROJECTS</a><a class="px-space-md py-space-xs rounded-full font-label-hud text-label-hud text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="contact-link" href="#">CONTACT</a></nav><div class="flex items-center gap-space-md"><div class="hidden md:flex flex-col w-32 gap-1"><div class="flex items-center justify-between text-outline"><span class="font-label-code text-label-code">MISSION_SYNC</span><span class="font-label-code text-label-code text-secondary">100%</span></div><div class="w-full h-1 bg-surface-variant rounded-full overflow-hidden"><div class="h-full w-full bg-secondary shadow-[0_0_8px_rgba(76,215,246,0.6)]"></div></div></div><button aria-label="Toggle Audio Synthesizer" class="w-9 h-9 rounded-full bg-surface-container flex items-center justify-center text-on-surface-variant hover:bg-surface-container-high hover:text-secondary transition-all shadow-[0_0_10px_rgba(0,0,0,0.3)]" type="button"><span class="material-symbols-outlined text-body-lg">volume_up</span></button><div class="flex items-center gap-space-xs"><a aria-label="Developer GitHub" class="w-9 h-9 rounded-full bg-surface-container flex items-center justify-center text-on-surface-variant hover:bg-surface-container-high hover:text-primary transition-all shadow-[0_0_10px_rgba(0,0,0,0.3)]" href="https://github.com" rel="noopener noreferrer" target="_blank"><span class="material-symbols-outlined text-body-lg">code</span></a><a aria-label="Developer LinkedIn" class="w-9 h-9 rounded-full bg-surface-container flex items-center justify-center text-on-surface-variant hover:bg-surface-container-high hover:text-secondary transition-all shadow-[0_0_10px_rgba(0,0,0,0.3)]" href="https://linkedin.com" rel="noopener noreferrer" target="_blank"><span class="material-symbols-outlined text-body-lg">lan</span></a></div><img alt="Profile" class="w-8 h-8 rounded-full object-cover shadow-[0_0_10px_rgba(208,188,255,0.4)]" src="https://lh3.googleusercontent.com/aida/AEtjO1UqImxauGALE8Np2meAAKstt42tR4aYkNGGEocq4El2wyNwTV3v9lpi8nYm4vIPjn5LUrbUQdyNmjcwg9dCEICsQhUDZlzd1A620YVVjUDeXBIfQfh9TfIZXnDGqgUhuCZ0IvX0UQsbtxihtuOKQ-CBGERWrrzDtobr4-OHiw8xwnGij8pYg7OVN3WeIdeiUgGcTYqcgK7NOVpwaFwsTm2QWEcjHUBgd-lqKYvgKxjg2GLIynajkJslGw-s"/></div></div><div class="w-full h-0.5 bg-surface-variant/40 relative overflow-hidden"><div class="absolute inset-y-0 left-0 w-1/3 bg-gradient-to-r from-transparent via-secondary to-transparent animate-pulse"></div></div></header><main class="w-full pt-20 bg-background"><div class="flex flex-col w-full relative selection:bg-secondary-container selection:text-on-secondary-container">
+<!-- HUD Telemetry Dock & Ambient Canvas Decor -->
+<div class="fixed bottom-6 right-6 z-40 hidden xl:flex flex-col items-end gap-2 pointer-events-none">
+<div class="bg-surface-container-high/90 backdrop-blur-md px-4 py-2 rounded-lg shadow-xl flex items-center gap-3 pointer-events-auto">
+<span class="w-2 h-2 rounded-full bg-secondary animate-ping"></span>
+<span class="font-label-code text-label-code text-on-surface">LOC: 28.5355° N, 77.3910° E [NOIDA_SECTOR]</span>
+<span class="font-label-code text-label-code text-outline">///</span>
+<span class="font-label-code text-label-code text-secondary font-bold" id="live-chronometer">UTC: 00:00:00</span>
+</div>
+</div>
+<!-- HERO SECTION: Planetary Orbital Apex -->
+<section class="relative w-full overflow-hidden py-space-2xl lg:py-32 flex flex-col justify-center items-center" id="portfolio-core">
+<!-- Nebula Ambient Light Wells -->
+<div class="absolute -top-32 left-1/4 w-[600px] h-[600px] bg-primary/10 rounded-full blur-[140px] pointer-events-none"></div>
+<div class="absolute top-1/3 -right-20 w-[500px] h-[500px] bg-secondary/15 rounded-full blur-[160px] pointer-events-none"></div>
+<!-- WARP STATUS HUD FLOATING OVERLAY NOTIFICATION -->
+<div class="fixed top-24 left-1/2 -translate-x-1/2 z-50 transition-all duration-700 pointer-events-none opacity-0 scale-90 translate-y-[-20px]" id="warp-notification-banner">
+<div class="bg-surface-container-highest/95 border border-secondary/60 shadow-[0_0_35px_rgba(76,215,246,0.6)] backdrop-blur-xl px-6 py-3.5 rounded-2xl flex items-center gap-4">
+<div class="w-8 h-8 rounded-full bg-secondary/20 flex items-center justify-center text-secondary animate-spin">
+<span class="material-symbols-outlined text-lg">cyclone</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-code text-label-code text-secondary uppercase tracking-widest" id="warp-hud-tag">// SINGULARITY JUMP CONFIRMED</span>
+<span class="font-title-lg text-title-lg font-bold text-on-surface" id="warp-hud-title">WARP TRAJECTORY COMPLETE // WELCOME TO GALAXY SECTOR 001</span>
+</div>
+<span class="w-2.5 h-2.5 rounded-full bg-secondary animate-ping ml-2"></span>
+</div>
+</div>
+<div class="w-full max-w-7xl mx-auto px-margin-mobile md:px-margin flex flex-col lg:flex-row items-center justify-between gap-space-2xl relative z-10">
+<!-- Text & Mission Directives -->
+<div class="flex-1 flex flex-col items-start gap-space-md text-left">
+<!-- Status Indicator Pill -->
+<div class="inline-flex items-center gap-space-xs px-3 py-1.5 rounded-full bg-surface-container-high/80 backdrop-blur-md shadow-md">
+<span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span>
+<span class="font-label-hud text-label-hud text-secondary uppercase tracking-widest">TRANSMISSION ACTIVE // ORBITAL NODE</span>
+</div>
+<!-- Name & Holographic Type -->
+<div class="flex flex-col">
+<span class="font-label-code text-label-code text-outline uppercase tracking-[0.25em]">CALLSIGN: SAHIL // SYS_ENGINEER</span>
+<h1 class="font-display-xl text-display-xl font-bold tracking-tighter text-on-surface uppercase -ml-1">
+            SAHIL
+          </h1>
+<div class="h-1.5 w-32 bg-gradient-to-r from-secondary via-primary to-transparent rounded-full -mt-2"></div>
+</div>
+<!-- Tagline Badge -->
+<div class="bg-surface-container/70 backdrop-blur-md px-4 py-2 rounded-lg shadow-sm">
+<p class="font-title-lg text-title-lg text-primary-fixed-dim">
+            Backend Engineer • <span class="text-secondary">Go</span> • <span class="text-on-surface">Node.js</span> • Distributed Systems
+          </p>
+</div>
+<!-- Mission Statement -->
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-xl">
+          Forging zero-latency microservices, fault-tolerant consensus layers, and high-concurrency event fabrics across distributed cosmic infrastructures.
+        </p>
+<!-- PROMINENT WARP COMMAND BUTTON -->
+<div class="w-full max-w-md pt-2">
+<button class="group relative w-full sm:w-auto px-8 py-4 rounded-2xl bg-gradient-to-r from-surface-container-highest via-surface-container to-surface-container-high border-2 border-secondary text-on-surface font-label-hud tracking-[0.2em] uppercase flex items-center justify-center gap-3 warp-btn-glow transition-all duration-300 hover:scale-[1.03] active:scale-[0.98] hover:border-tertiary" id="btn-warp-travel" onclick="triggerGalaxyWarp()" type="button">
+<div class="absolute -inset-1 bg-gradient-to-r from-secondary via-primary to-tertiary rounded-2xl blur-md opacity-50 group-hover:opacity-100 transition duration-500 -z-10"></div>
+<span class="material-symbols-outlined text-secondary text-2xl group-hover:rotate-180 transition-transform duration-700 animate-pulse">rocket</span>
+<span class="font-bold text-sm tracking-widest text-secondary group-hover:text-primary transition-colors">TRAVEL TO MY GALAXY</span>
+<span class="material-symbols-outlined text-tertiary text-lg group-hover:translate-x-1 transition-transform">bolt</span>
+</button>
+</div>
+<!-- Command CTAs -->
+<div class="flex flex-wrap items-center gap-space-md pt-space-xs">
+<a class="px-7 py-3.5 rounded-full bg-primary-container text-on-primary-container font-label-hud text-label-hud tracking-widest uppercase hover:shadow-[0_0_25px_rgba(160,120,255,0.5)] transition-all flex items-center gap-2" href="#projects-grid">
+<span class="material-symbols-outlined text-base">rocket_launch</span>
+            VIEW PROJECTS
+          </a>
+<a class="px-6 py-3.5 rounded-full bg-surface-container-high/90 text-on-surface font-label-hud text-label-hud tracking-widest uppercase hover:bg-surface-bright hover:text-secondary transition-all flex items-center gap-2 shadow-md" href="#about-spec">
+<span class="material-symbols-outlined text-base">description</span>
+            MISSION SPEC
+          </a>
+<a class="px-6 py-3.5 rounded-full bg-surface-container-low text-secondary font-label-hud text-label-hud tracking-widest uppercase hover:bg-surface-container transition-all flex items-center gap-2" href="#contact-link">
+<span class="material-symbols-outlined text-base">cell_tower</span>
+            TRANSMIT
+          </a>
+</div>
+<!-- Orbital Telemetry Counters -->
+<div class="grid grid-cols-3 gap-space-md w-full max-w-lg pt-space-lg">
+<div class="bg-surface-container-low/90 backdrop-blur-sm p-4 rounded-xl shadow-md">
+<div class="font-label-code text-label-code text-outline">ORBIT_CYCLE</div>
+<div class="font-headline-md text-headline-md font-bold text-secondary">02+ <span class="text-xs text-on-surface-variant font-normal">YRS</span></div>
+<div class="font-body-sm text-body-sm text-on-surface-variant">Core Development</div>
+</div>
+<div class="bg-surface-container-low/90 backdrop-blur-sm p-4 rounded-xl shadow-md">
+<div class="font-label-code text-label-code text-outline">SORTIES</div>
+<div class="font-headline-md text-headline-md font-bold text-primary">18+ <span class="text-xs text-on-surface-variant font-normal">OPS</span></div>
+<div class="font-body-sm text-body-sm text-on-surface-variant">Missions Shipped</div>
+</div>
+<div class="bg-surface-container-low/90 backdrop-blur-sm p-4 rounded-xl shadow-md">
+<div class="font-label-code text-label-code text-outline">NODES</div>
+<div class="font-headline-md text-headline-md font-bold text-tertiary">14+ <span class="text-xs text-on-surface-variant font-normal">ENG</span></div>
+<div class="font-body-sm text-body-sm text-on-surface-variant">Microservices Built</div>
+</div>
+</div>
+</div>
+<!-- Holographic Planetary Canvas Viewport with Spaceship & Black Hole Entity -->
+<div class="flex-1 w-full max-w-lg lg:max-w-xl relative flex items-center justify-center min-h-[460px]" id="cosmic-stage">
+<div class="relative w-80 h-80 sm:w-96 sm:h-96 md:w-[440px] md:h-[440px] rounded-full flex items-center justify-center">
+<!-- Outer Orbital HUD Arc -->
+<svg class="absolute inset-0 w-full h-full animate-[spin_60s_linear_infinite]" viewbox="0 0 400 400">
+<circle class="text-outline-variant/40" cx="200" cy="200" fill="none" r="190" stroke="currentColor" stroke-dasharray="8 14" stroke-width="1.5"></circle>
+<circle class="text-secondary/50" cx="200" cy="200" fill="none" r="165" stroke="currentColor" stroke-dasharray="2 18" stroke-width="2"></circle>
+<circle class="text-primary/40" cx="200" cy="200" fill="none" r="140" stroke="currentColor" stroke-dasharray="40 80" stroke-width="1"></circle>
+</svg>
+<!-- BLACK HOLE ENTITY (Upper Right Orbital Quadrant) -->
+<div class="absolute -top-6 -right-6 w-36 h-36 md:w-44 md:h-44 z-30 pointer-events-auto cursor-pointer group transition-transform duration-500 hover:scale-110" id="black-hole-entity" onclick="triggerGalaxyWarp()" title="Target Singularity Gateway // Click to warp">
+<!-- Gravitational Lensing & Accretion Glow -->
+<div class="absolute inset-0 rounded-full accretion-glow bg-gradient-to-tr from-secondary/40 via-tertiary/40 to-primary/50 blur-xl"></div>
+<!-- Outer Accretion Disc (Rotating) -->
+<div class="absolute inset-1 rounded-full black-hole-disk border-2 border-dashed border-secondary/60 opacity-80"></div>
+<div class="absolute inset-3 rounded-full black-hole-disk border border-tertiary/70 opacity-90 shadow-[0_0_25px_rgba(251,171,255,0.7)]" style="animation-direction: reverse; animation-duration: 16s;"></div>
+<!-- Photonic Rings -->
+<div class="absolute inset-6 rounded-full border-2 border-secondary shadow-[0_0_20px_rgba(76,215,246,0.9)] animate-pulse"></div>
+<!-- Deep Singularity Center -->
+<div class="absolute inset-9 rounded-full bg-surface-container-lowest border border-black shadow-[inset_0_0_15px_#000000] flex items-center justify-center overflow-hidden">
+<div class="w-4 h-4 rounded-full bg-black shadow-[0_0_12px_rgba(0,0,0,1)]"></div>
+</div>
+<!-- Gravity Wave Radial Flash (Activated on warp) -->
+<div class="absolute inset-0 rounded-full bg-gradient-to-r from-secondary via-white to-primary opacity-0 pointer-events-none transition-all duration-700 blur-md" id="singularity-flash"></div>
+<!-- Black Hole HUD Label -->
+<div class="absolute -bottom-5 left-1/2 -translate-x-1/2 px-2 py-0.5 rounded bg-surface-container-lowest/90 border border-secondary/30 backdrop-blur-md text-[9px] font-label-code text-secondary tracking-widest whitespace-nowrap shadow-md">
+    SINGULARITY_GATE // 0x01
+  </div>
+</div>
+<!-- Core Planet Display -->
+<div class="w-64 h-64 sm:w-72 sm:h-72 rounded-full overflow-hidden shadow-[0_0_80px_rgba(76,215,246,0.3)] relative bg-surface-container-lowest z-10">
+<img class="w-full h-full object-cover mix-blend-screen scale-110" data-alt="An awe-inspiring hyper-detailed deep space gas giant planet surrounded by radiant glowing turquoise ice rings and nebular dust, framed by an interstellar spacecraft cockpit HUD, with cosmic purple and cyan stellar illumination." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDceKLOQPh-ADU0hdr_toyUjEMVDcLGkqTSYMRl0Z9uP0iemsUMNKr1vXLfhBj7Rq762Uji4NwwlOyG0mGAmmptOMlnYchSzolKluUjVLNypqR7OdWSF5X849Wth3n6lsWSXTZd3sXolWXWXPhG9SItCgkwWf55u-bXVkwO4oQjTRwonSXHnH1vF-NoH6A4e7yQ-uEdcrhp-VDSzme_LnZSYU-3lN7-aeyN-dgVbP8gTRo8qdKIe8-45A"/>
+<div class="absolute inset-0 bg-gradient-to-tr from-surface/80 via-transparent to-primary/20"></div>
+</div>
+<!-- INTERACTIVE HIGH-TECH SCOUT SPACESHIP -->
+<div class="absolute left-0 bottom-12 z-30 transition-all duration-1000 ship-idle-animation cursor-pointer group" id="scout-spaceship" onclick="triggerGalaxyWarp()" title="Sahil-01 Scout Vessel // Click or use Travel button">
+<!-- Thruster Particle Flame & Light Flare -->
+<div class="absolute -bottom-3 left-1/2 -translate-x-1/2 w-6 h-10 bg-gradient-to-b from-secondary via-primary/80 to-transparent blur-xs rounded-full thruster-plume transition-all duration-300" id="ship-exhaust-flare"></div>
+<div class="absolute bottom-1/2 left-1/2 -translate-x-1/2 w-1.5 h-0 bg-secondary/80 rounded-full blur-[1px] transition-all duration-500 opacity-0" id="ship-hyperspeed-trail"></div>
+<!-- Spaceship Vessel Body (Vector SVG) -->
+<div class="relative w-16 h-16 md:w-20 md:h-20 drop-shadow-[0_0_16px_rgba(76,215,246,0.7)] group-hover:scale-110 transition-transform">
+<svg class="w-full h-full fill-none" viewbox="0 0 100 100">
+<!-- Shield Arc Glow -->
+<path class="animate-pulse" d="M 50 2 C 75 25, 75 75, 50 98 C 25 75, 25 25, 50 2" stroke="rgba(76,215,246,0.3)" stroke-dasharray="4 6" stroke-width="1.5"></path>
+<!-- Port and Starboard Aerodynamic Wings -->
+<polygon fill="#1d1f2a" points="50,15 15,75 32,70" stroke="#4cd7f6" stroke-width="1.8"></polygon>
+<polygon fill="#1d1f2a" points="50,15 85,75 68,70" stroke="#d0bcff" stroke-width="1.8"></polygon>
+<!-- Central Fuselage / Cockpit Hull -->
+<polygon fill="#11131d" points="50,8 64,68 50,78 36,68" stroke="#e1e1f1" stroke-width="2"></polygon>
+<!-- Luminescent Cockpit Visor / Sensors -->
+<polygon class="shadow-[0_0_8px_#4cd7f6]" fill="#4cd7f6" points="50,22 56,42 50,48 44,42"></polygon>
+<!-- Dual Ion Thruster Ports -->
+<rect fill="#4cd7f6" height="5" rx="1" stroke="#e1e1f1" stroke-width="1" width="6" x="40" y="74"></rect>
+<rect fill="#d0bcff" height="5" rx="1" stroke="#e1e1f1" stroke-width="1" width="6" x="54" y="74"></rect>
+<!-- Avionics Accents -->
+<line stroke="#fbabff" stroke-width="1.5" x1="50" x2="50" y1="48" y2="70"></line>
+</svg>
+</div>
+<!-- Floating Call-sign Badge -->
+<div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-surface-container-high/90 border border-secondary/40 text-secondary text-[8px] font-label-code px-1.5 py-0.2 rounded whitespace-nowrap shadow-sm group-hover:border-secondary transition-colors">
+    SHIP: SAHIL-01
+  </div>
+</div>
+<!-- Floating Orbiting Micro-Telemetry Badges -->
+<div class="absolute -top-4 right-4 bg-surface-container-high/90 backdrop-blur-md px-3.5 py-2 rounded-lg shadow-lg flex items-center gap-2 z-20">
+<span class="material-symbols-outlined text-secondary text-sm">memory</span>
+<div class="flex flex-col">
+<span class="font-label-code text-label-code text-outline">ENGINE_STATUS</span>
+<span class="font-label-hud text-label-hud text-on-surface">OPTIMAL // GOROUTINE POOL</span>
+</div>
+</div>
+<div class="absolute -bottom-6 left-2 bg-surface-container-high/90 backdrop-blur-md px-3.5 py-2 rounded-lg shadow-lg flex items-center gap-2 z-20">
+<span class="material-symbols-outlined text-tertiary text-sm">shield</span>
+<div class="flex flex-col">
+<span class="font-label-code text-label-code text-outline">CONSENSUS</span>
+<span class="font-label-hud text-label-hud text-on-surface">RAFT QUORUM: 100%</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- SECTION 2: ABOUT SPEC & EXPEDITION FLIGHT LOG -->
+<section class="w-full py-space-2xl bg-surface-container-lowest/60 relative" id="about-spec">
+<div class="w-full max-w-7xl mx-auto px-margin-mobile md:px-margin flex flex-col gap-space-xl">
+<!-- Section Header -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-space-md">
+<div>
+<div class="flex items-center gap-2 text-secondary mb-1">
+<span class="font-label-code text-label-code tracking-widest">// FLIGHT RECORD 0x01</span>
+<span class="h-px w-12 bg-secondary/40"></span>
+</div>
+<h2 class="font-headline-lg text-headline-lg font-bold text-on-surface">
+            The Explorer Behind the Code
+          </h2>
+</div>
+<p class="font-label-code text-label-code text-outline">
+          ACADEMIC SPEC: B.TECH CSE (2022–2026) • SECTOR: NOIDA / NEW DELHI
+        </p>
+</div>
+<!-- Bento Grid: Bio Narrative & Experience Checkpoints -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-lg">
+<!-- Left Column: Biography & Architectural Doctrine -->
+<div class="lg:col-span-5 flex flex-col gap-space-md">
+<div class="bg-surface-container-low p-space-lg rounded-xl shadow-lg flex flex-col gap-space-md">
+<div class="flex items-center gap-space-sm text-primary">
+<span class="material-symbols-outlined">explore</span>
+<h3 class="font-title-lg text-title-lg font-semibold text-on-surface">Core Directives</h3>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant">
+              Passionate Computer Science scholar focused on high-throughput backend architecture. Deeply immersed in the mechanics of low-level concurrency, LSM-tree persistence models, robust gRPC RPC layers, and fault-tolerant Redis distribution algorithms.
+            </p>
+<p class="font-body-md text-body-md text-on-surface-variant">
+              Currently navigating distributed consensus patterns, containerized deployments on Google Cloud Platform, and mission-critical API gateways designed to handle thousands of concurrent transactions per second without degraded response thresholds.
+            </p>
+<div class="grid grid-cols-2 gap-space-sm pt-space-xs">
+<div class="bg-surface-container p-3 rounded-lg">
+<span class="font-label-code text-label-code text-outline block">ACADEMIC_EXPEDITION</span>
+<span class="font-title-lg text-title-lg text-secondary font-semibold">2022 – 2026</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant block">B.Tech in CSE</span>
+</div>
+<div class="bg-surface-container p-3 rounded-lg">
+<span class="font-label-code text-label-code text-outline block">TARGET_HORIZON</span>
+<span class="font-title-lg text-title-lg text-primary font-semibold">DISTRIBUTED</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant block">Systems Architect</span>
+</div>
+</div>
+</div>
+<!-- Cosmonaut Portrait Module -->
+<div class="bg-surface-container p-space-md rounded-xl shadow-md flex items-center gap-space-md overflow-hidden relative">
+<div class="w-20 h-20 rounded-lg overflow-hidden shrink-0 shadow-md">
+<img class="w-full h-full object-cover" data-alt="Futuristic sci-fi astronaut in sleek space suit with illuminated turquoise visor reflecting distant galaxies and holographic telemetry dials in photorealistic deep space." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDN5-bH2L4fnnLpaHOcrqJOa8_Z4DP1Y8G_bKOWkhyUguenZaqQP-8c465daTtWZqhrcSWl-Ou6BANmP5DeYCbANubIOceEcE621brBAH1TZS1OUFei_iDhRPPILffuW5tONyiGL_P1nireAYk3MqHv0mszywKh_YEZf4gtN5qif_kC9eddYbUmIWjvPGbH_GwIifeJ0cK2ISGvpxDwa68Ckz9NGh_2j2wsWDC3TApMglPgKHHrPF05xQ"/>
+</div>
+<div class="flex flex-col">
+<span class="font-label-code text-label-code text-secondary tracking-widest">// CREW_DOSSIER</span>
+<span class="font-title-lg text-title-lg text-on-surface font-semibold">SAHIL PATEL</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Always benchmarking query latencies, profiling memory allocations, and synchronizing distributed channels.</span>
+</div>
+</div>
+</div>
+<!-- Right Column: Flight Path Timeline Checkpoints -->
+<div class="lg:col-span-7 flex flex-col gap-space-md">
+<div class="bg-surface-container-low p-space-lg rounded-xl shadow-lg flex flex-col gap-space-lg">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-sm text-secondary">
+<span class="material-symbols-outlined">timeline</span>
+<h3 class="font-title-lg text-title-lg font-semibold text-on-surface">Expedition Timeline</h3>
+</div>
+<span class="font-label-hud text-label-hud text-outline uppercase">CHRONO_SORT: DESCENDING</span>
+</div>
+<div class="flex flex-col gap-space-lg relative">
+<!-- Visual Trajectory Line -->
+<div class="absolute left-4 top-2 bottom-2 w-0.5 bg-gradient-to-b from-secondary via-primary to-transparent"></div>
+<!-- Checkpoint 01 -->
+<div class="flex items-start gap-space-md relative pl-10">
+<div class="absolute left-2.5 top-1.5 w-3.5 h-3.5 rounded-full bg-secondary shadow-[0_0_10px_rgba(76,215,246,0.8)] -translate-x-1/2"></div>
+<div class="flex-1 bg-surface-container p-space-md rounded-xl shadow-sm flex flex-col gap-2">
+<div class="flex flex-wrap items-center justify-between gap-1">
+<span class="font-title-lg text-title-lg font-bold text-on-surface">Golang Backend Developer Intern</span>
+<span class="px-2.5 py-0.5 rounded-full bg-secondary/10 text-secondary font-label-code text-label-code">APR 2026 – JUN 2026</span>
+</div>
+<div class="flex items-center gap-2 text-primary font-body-sm text-body-sm">
+<span class="material-symbols-outlined text-sm">business</span>
+<span>Smollan India (Google Retail Hub Mission)</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant">
+                    Spearheaded optimization runs on high-throughput Golang microservices across retail sync pipelines. Reduced peak query latency by 34% through proactive Redis cache invalidation strategies and Goroutine concurrency pooling.
+                  </p>
+<div class="flex flex-wrap gap-1.5 pt-1">
+<span class="px-2 py-0.5 rounded bg-surface-container-high text-on-surface-variant font-label-code text-label-code">Golang</span>
+<span class="px-2 py-0.5 rounded bg-surface-container-high text-on-surface-variant font-label-code text-label-code">Redis</span>
+<span class="px-2 py-0.5 rounded bg-surface-container-high text-on-surface-variant font-label-code text-label-code">Microservices</span>
+<span class="px-2 py-0.5 rounded bg-surface-container-high text-on-surface-variant font-label-code text-label-code">Concurrency</span>
+</div>
+</div>
+</div>
+<!-- Checkpoint 02 -->
+<div class="flex items-start gap-space-md relative pl-10">
+<div class="absolute left-2.5 top-1.5 w-3.5 h-3.5 rounded-full bg-primary shadow-[0_0_10px_rgba(208,188,255,0.8)] -translate-x-1/2"></div>
+<div class="flex-1 bg-surface-container p-space-md rounded-xl shadow-sm flex flex-col gap-2">
+<div class="flex flex-wrap items-center justify-between gap-1">
+<span class="font-title-lg text-title-lg font-bold text-on-surface">Backend Developer Intern</span>
+<span class="px-2.5 py-0.5 rounded-full bg-primary/10 text-primary font-label-code text-label-code">JUN 2025 – AUG 2025</span>
+</div>
+<div class="flex items-center gap-2 text-primary-fixed-dim font-body-sm text-body-sm">
+<span class="material-symbols-outlined text-sm">business</span>
+<span>Docimize Tech Solutions</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant">
+                    Engineered resilient multi-tenant REST architectures in Node.js, built bulletproof JWT RBAC authorization schemes, and streamlined continuous integration pipelines for zero-downtime micro-deployments.
+                  </p>
+<div class="flex flex-wrap gap-1.5 pt-1">
+<span class="px-2 py-0.5 rounded bg-surface-container-high text-on-surface-variant font-label-code text-label-code">Node.js</span>
+<span class="px-2 py-0.5 rounded bg-surface-container-high text-on-surface-variant font-label-code text-label-code">JWT / RBAC</span>
+<span class="px-2 py-0.5 rounded bg-surface-container-high text-on-surface-variant font-label-code text-label-code">Express</span>
+<span class="px-2 py-0.5 rounded bg-surface-container-high text-on-surface-variant font-label-code text-label-code">CI/CD</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- SECTION 3: SKILLS MATRIX (TECHNICAL ARSENAL) -->
+<section class="w-full py-space-2xl relative" id="skills-matrix">
+<div class="w-full max-w-7xl mx-auto px-margin-mobile md:px-margin flex flex-col gap-space-xl">
+<!-- Section Header -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-space-md">
+<div>
+<div class="flex items-center gap-2 text-tertiary mb-1">
+<span class="font-label-code text-label-code tracking-widest">// PAYLOAD CALIBRATION</span>
+<span class="h-px w-12 bg-tertiary/40"></span>
+</div>
+<h2 class="font-headline-lg text-headline-lg font-bold text-on-surface">
+            Technical Arsenal
+          </h2>
+</div>
+<p class="font-label-code text-label-code text-outline">
+          ORBITAL RADAR: 4 DISCRETE ENGINE SUBSYSTEMS
+        </p>
+</div>
+<!-- 4 Orbital Skill Arrays -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-space-md">
+<!-- Array 01: Languages -->
+<div class="bg-surface-container-low p-space-lg rounded-xl shadow-lg flex flex-col gap-space-md group hover:bg-surface-container transition-all">
+<div class="flex items-center justify-between">
+<div class="w-10 h-10 rounded-lg bg-surface-container-high flex items-center justify-center text-secondary group-hover:shadow-[0_0_15px_rgba(76,215,246,0.3)] transition-all">
+<span class="material-symbols-outlined">terminal</span>
+</div>
+<span class="font-label-code text-label-code text-outline">ARRAY 01</span>
+</div>
+<h3 class="font-title-lg text-title-lg font-bold text-on-surface">Languages</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Core compiled and asynchronous runtimes used for building scalable engines.</p>
+<div class="flex flex-col gap-2.5 pt-2">
+<div>
+<div class="flex justify-between font-label-code text-label-code mb-1">
+<span class="text-on-surface">Go (Golang)</span>
+<span class="text-secondary font-bold">95%</span>
+</div>
+<div class="w-full h-1.5 bg-surface-container-high rounded-full overflow-hidden">
+<div class="h-full bg-secondary w-[95%] shadow-[0_0_8px_rgba(76,215,246,0.5)]"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between font-label-code text-label-code mb-1">
+<span class="text-on-surface">JavaScript / Node.js</span>
+<span class="text-secondary font-bold">90%</span>
+</div>
+<div class="w-full h-1.5 bg-surface-container-high rounded-full overflow-hidden">
+<div class="h-full bg-secondary w-[90%] shadow-[0_0_8px_rgba(76,215,246,0.5)]"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between font-label-code text-label-code mb-1">
+<span class="text-on-surface">C++</span>
+<span class="text-secondary font-bold">80%</span>
+</div>
+<div class="w-full h-1.5 bg-surface-container-high rounded-full overflow-hidden">
+<div class="h-full bg-secondary w-[80%] shadow-[0_0_8px_rgba(76,215,246,0.5)]"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between font-label-code text-label-code mb-1">
+<span class="text-on-surface">TypeScript</span>
+<span class="text-secondary font-bold">85%</span>
+</div>
+<div class="w-full h-1.5 bg-surface-container-high rounded-full overflow-hidden">
+<div class="h-full bg-secondary w-[85%] shadow-[0_0_8px_rgba(76,215,246,0.5)]"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Array 02: Frameworks & Architecture -->
+<div class="bg-surface-container-low p-space-lg rounded-xl shadow-lg flex flex-col gap-space-md group hover:bg-surface-container transition-all">
+<div class="flex items-center justify-between">
+<div class="w-10 h-10 rounded-lg bg-surface-container-high flex items-center justify-center text-primary group-hover:shadow-[0_0_15px_rgba(208,188,255,0.3)] transition-all">
+<span class="material-symbols-outlined">hub</span>
+</div>
+<span class="font-label-code text-label-code text-outline">ARRAY 02</span>
+</div>
+<h3 class="font-title-lg text-title-lg font-bold text-on-surface">Architecture</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Protocols, routing engines, and modular distributed design models.</p>
+<div class="flex flex-col gap-2.5 pt-2">
+<div>
+<div class="flex justify-between font-label-code text-label-code mb-1">
+<span class="text-on-surface">gRPC &amp; Protobuf</span>
+<span class="text-primary font-bold">92%</span>
+</div>
+<div class="w-full h-1.5 bg-surface-container-high rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[92%] shadow-[0_0_8px_rgba(208,188,255,0.5)]"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between font-label-code text-label-code mb-1">
+<span class="text-on-surface">Gin &amp; GORM</span>
+<span class="text-primary font-bold">90%</span>
+</div>
+<div class="w-full h-1.5 bg-surface-container-high rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[90%] shadow-[0_0_8px_rgba(208,188,255,0.5)]"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between font-label-code text-label-code mb-1">
+<span class="text-on-surface">Express.js</span>
+<span class="text-primary font-bold">88%</span>
+</div>
+<div class="w-full h-1.5 bg-surface-container-high rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[88%] shadow-[0_0_8px_rgba(208,188,255,0.5)]"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between font-label-code text-label-code mb-1">
+<span class="text-on-surface">Microservices Fabric</span>
+<span class="text-primary font-bold">94%</span>
+</div>
+<div class="w-full h-1.5 bg-surface-container-high rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[94%] shadow-[0_0_8px_rgba(208,188,255,0.5)]"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Array 03: Databases & Caching -->
+<div class="bg-surface-container-low p-space-lg rounded-xl shadow-lg flex flex-col gap-space-md group hover:bg-surface-container transition-all">
+<div class="flex items-center justify-between">
+<div class="w-10 h-10 rounded-lg bg-surface-container-high flex items-center justify-center text-tertiary group-hover:shadow-[0_0_15px_rgba(251,171,255,0.3)] transition-all">
+<span class="material-symbols-outlined">database</span>
+</div>
+<span class="font-label-code text-label-code text-outline">ARRAY 03</span>
+</div>
+<h3 class="font-title-lg text-title-lg font-bold text-on-surface">Databases</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Persistent stores, key-value caches, and indexing optimization engines.</p>
+<div class="flex flex-col gap-2.5 pt-2">
+<div>
+<div class="flex justify-between font-label-code text-label-code mb-1">
+<span class="text-on-surface">PostgreSQL</span>
+<span class="text-tertiary font-bold">90%</span>
+</div>
+<div class="w-full h-1.5 bg-surface-container-high rounded-full overflow-hidden">
+<div class="h-full bg-tertiary w-[90%] shadow-[0_0_8px_rgba(251,171,255,0.5)]"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between font-label-code text-label-code mb-1">
+<span class="text-on-surface">Redis Cache &amp; Pub/Sub</span>
+<span class="text-tertiary font-bold">95%</span>
+</div>
+<div class="w-full h-1.5 bg-surface-container-high rounded-full overflow-hidden">
+<div class="h-full bg-tertiary w-[95%] shadow-[0_0_8px_rgba(251,171,255,0.5)]"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between font-label-code text-label-code mb-1">
+<span class="text-on-surface">MongoDB</span>
+<span class="text-tertiary font-bold">88%</span>
+</div>
+<div class="w-full h-1.5 bg-surface-container-high rounded-full overflow-hidden">
+<div class="h-full bg-tertiary w-[88%] shadow-[0_0_8px_rgba(251,171,255,0.5)]"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between font-label-code text-label-code mb-1">
+<span class="text-on-surface">LSM-Tree Key-Values</span>
+<span class="text-tertiary font-bold">86%</span>
+</div>
+<div class="w-full h-1.5 bg-surface-container-high rounded-full overflow-hidden">
+<div class="h-full bg-tertiary w-[86%] shadow-[0_0_8px_rgba(251,171,255,0.5)]"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Array 04: DevOps & Cloud -->
+<div class="bg-surface-container-low p-space-lg rounded-xl shadow-lg flex flex-col gap-space-md group hover:bg-surface-container transition-all">
+<div class="flex items-center justify-between">
+<div class="w-10 h-10 rounded-lg bg-surface-container-high flex items-center justify-center text-secondary-fixed group-hover:shadow-[0_0_15px_rgba(172,237,255,0.3)] transition-all">
+<span class="material-symbols-outlined">cloud</span>
+</div>
+<span class="font-label-code text-label-code text-outline">ARRAY 04</span>
+</div>
+<h3 class="font-title-lg text-title-lg font-bold text-on-surface">DevOps &amp; Cloud</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Containerized pipelines, cloud infrastructure, and deployment telemetry.</p>
+<div class="flex flex-col gap-2.5 pt-2">
+<div>
+<div class="flex justify-between font-label-code text-label-code mb-1">
+<span class="text-on-surface">Docker Engine</span>
+<span class="text-secondary-fixed font-bold">92%</span>
+</div>
+<div class="w-full h-1.5 bg-surface-container-high rounded-full overflow-hidden">
+<div class="h-full bg-secondary-fixed w-[92%] shadow-[0_0_8px_rgba(172,237,255,0.5)]"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between font-label-code text-label-code mb-1">
+<span class="text-on-surface">Google Cloud (GCP)</span>
+<span class="text-secondary-fixed font-bold">82%</span>
+</div>
+<div class="w-full h-1.5 bg-surface-container-high rounded-full overflow-hidden">
+<div class="h-full bg-secondary-fixed w-[82%] shadow-[0_0_8px_rgba(172,237,255,0.5)]"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between font-label-code text-label-code mb-1">
+<span class="text-on-surface">Git &amp; GitHub Actions</span>
+<span class="text-secondary-fixed font-bold">95%</span>
+</div>
+<div class="w-full h-1.5 bg-surface-container-high rounded-full overflow-hidden">
+<div class="h-full bg-secondary-fixed w-[95%] shadow-[0_0_8px_rgba(172,237,255,0.5)]"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between font-label-code text-label-code mb-1">
+<span class="text-on-surface">Postman &amp; CI/CD</span>
+<span class="text-secondary-fixed font-bold">90%</span>
+</div>
+<div class="w-full h-1.5 bg-surface-container-high rounded-full overflow-hidden">
+<div class="h-full bg-secondary-fixed w-[90%] shadow-[0_0_8px_rgba(172,237,255,0.5)]"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- SECTION 4: PROJECTS GRID (MISSION SELECT) -->
+<section class="w-full py-space-2xl bg-surface-container-lowest/80 relative" id="projects-grid">
+<div class="w-full max-w-7xl mx-auto px-margin-mobile md:px-margin flex flex-col gap-space-xl">
+<!-- Section Header -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-space-md">
+<div>
+<div class="flex items-center gap-2 text-secondary mb-1">
+<span class="font-label-code text-label-code tracking-widest">// ORBITAL SORTIES ARCHIVE</span>
+<span class="h-px w-12 bg-secondary/40"></span>
+</div>
+<h2 class="font-headline-lg text-headline-lg font-bold text-on-surface">
+            Mission Select: Choose Target Sector
+          </h2>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">
+            Five projects. Different worlds. One developer.
+          </p>
+</div>
+<div class="flex items-center gap-2">
+<span class="px-3 py-1 rounded-full bg-surface-container text-secondary font-label-hud text-label-hud">
+            FILTER: ARCHITECTURE_BACKEND
+          </span>
+</div>
+</div>
+<!-- Projects Grid Layout -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-space-lg">
+<!-- Project 01: Distributed Chat Platform -->
+<div class="bg-surface-container-low rounded-xl overflow-hidden shadow-xl flex flex-col group hover:shadow-[0_0_30px_rgba(76,215,246,0.15)] transition-all">
+<div class="h-52 w-full relative overflow-hidden bg-surface-container-high">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Futuristic neon holographic communications array station hovering above an alien gas planet, beams of bright cyan and violet light pulsing through space, sci-fi telemetry graphic overlay." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA7F6r4EAl1p1RmGhTk2Q1cohTvtm1CSAd3gzDSc_L-loE25QpOcJN5leNS7AQ9KvpXJ1TCNWWamcjYb2sGbNSK41WSqUx1WM80HyftejTWMOww29mhFkRcIZ8-ATt1j_BtEMKhj-3_Rq4DWg2DNg6kLz7XvqKoYmZ8DkeIQdWhAMbEeUgxIO44VyrtqTHMDOjvyN3s2CgOwTpcCTrORFR9RN9s1Cuy-CvQM8MfXcMg_8Nb-fns8t3Bcw"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-low via-transparent to-transparent"></div>
+<div class="absolute top-4 left-4">
+<span class="px-3 py-1 rounded-full bg-surface-container-lowest/80 backdrop-blur-md text-secondary font-label-code text-label-code">
+                MISSION // 01 • ACTIVE NODE
+              </span>
+</div>
+</div>
+<div class="p-space-lg flex-1 flex flex-col justify-between gap-space-md">
+<div class="flex flex-col gap-2">
+<h3 class="font-headline-md text-headline-md font-bold text-on-surface group-hover:text-secondary transition-colors">
+                Distributed Chat Platform
+              </h3>
+<p class="font-body-md text-body-md text-on-surface-variant">
+                High-concurrency messaging fabric engineered using Golang, gRPC streaming, and WebSocket connections with Redis Pub/Sub for horizontal message fanout across decentralized nodes.
+              </p>
+<div class="flex flex-wrap gap-1.5 pt-2">
+<span class="px-2.5 py-1 rounded-full bg-surface-container-high text-on-surface font-label-code text-label-code">Go (Golang)</span>
+<span class="px-2.5 py-1 rounded-full bg-surface-container-high text-secondary font-label-code text-label-code">gRPC</span>
+<span class="px-2.5 py-1 rounded-full bg-surface-container-high text-primary font-label-code text-label-code">WebSockets</span>
+<span class="px-2.5 py-1 rounded-full bg-surface-container-high text-tertiary font-label-code text-label-code">Redis Pub/Sub</span>
+</div>
+</div>
+<div class="flex items-center justify-between pt-space-sm">
+<a class="inline-flex items-center gap-2 text-on-surface hover:text-secondary font-label-hud text-label-hud transition-colors" href="https://github.com/SahilPatel8826/Decentralized-chatting-app" rel="noopener noreferrer" target="_blank">
+<span class="material-symbols-outlined text-base">code</span>
+                ACCESS REPOSITORY
+              </a>
+<span class="font-label-code text-label-code text-outline">SECTOR: REALTIME_SYNC</span>
+</div>
+</div>
+</div>
+<!-- Project 02: Concurrent Database Engine -->
+<div class="bg-surface-container-low rounded-xl overflow-hidden shadow-xl flex flex-col group hover:shadow-[0_0_30px_rgba(208,188,255,0.15)] transition-all">
+<div class="h-52 w-full relative overflow-hidden bg-surface-container-high">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Deep space orbital core processor server floating in a purple nebula asteroid field, illuminated crystal memory lattices and cyan data flows, high-tech avionics perspective." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBrolU-Y-naRX89DGA6dR7yhcH7D7ewPUb70XsgC4U2Q0gv5rh1odnDGMMmfYG9n3vI4oLADqLSnxkSKqF1Bir_d8H4uOntpUesYhXTXjuThXeN0xdmk5Yv8fLhQ83-u1fxFRQHPVgLVEwIaTAsuTt7a5vy5faexRgMvmkI9BrnlFD8ro-YfgLOjLkC-u3pqPgRFieQVoPWIdSEzt588gRk-1D1DBC7yBEpQWS6fKs1IMqrKqgoaItKLA"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-low via-transparent to-transparent"></div>
+<div class="absolute top-4 left-4">
+<span class="px-3 py-1 rounded-full bg-surface-container-lowest/80 backdrop-blur-md text-primary font-label-code text-label-code">
+                MISSION // 02 • STORAGE_CORE
+              </span>
+</div>
+</div>
+<div class="p-space-lg flex-1 flex flex-col justify-between gap-space-md">
+<div class="flex flex-col gap-2">
+<h3 class="font-headline-md text-headline-md font-bold text-on-surface group-hover:text-primary transition-colors">
+                Concurrent Database Engine
+              </h3>
+<p class="font-body-md text-body-md text-on-surface-variant">
+                Embedded key-value storage engine in Go utilizing Log-Structured Merge-trees (LSM), MemTable serialization, Write-Ahead Logging (WAL), and mutex-less atomic concurrency primitives.
+              </p>
+<div class="flex flex-wrap gap-1.5 pt-2">
+<span class="px-2.5 py-1 rounded-full bg-surface-container-high text-on-surface font-label-code text-label-code">Go Primitive Channels</span>
+<span class="px-2.5 py-1 rounded-full bg-surface-container-high text-primary font-label-code text-label-code">LSM-Tree</span>
+<span class="px-2.5 py-1 rounded-full bg-surface-container-high text-secondary font-label-code text-label-code">WAL Engine</span>
+<span class="px-2.5 py-1 rounded-full bg-surface-container-high text-tertiary font-label-code text-label-code">Atomic Writes</span>
+</div>
+</div>
+<div class="flex items-center justify-between pt-space-sm">
+<a class="inline-flex items-center gap-2 text-on-surface hover:text-primary transition-colors font-label-hud text-label-hud" href="https://github.com/SahilPatel8826/golang/tree/main/Database" rel="noopener noreferrer" target="_blank">
+<span class="material-symbols-outlined text-base">code</span>
+                ACCESS REPOSITORY
+              </a>
+<span class="font-label-code text-label-code text-outline">SECTOR: PERSISTENCE</span>
+</div>
+</div>
+</div>
+<!-- Project 03: CropOzone Agrarian Nexus -->
+<div class="bg-surface-container-low rounded-xl overflow-hidden shadow-xl flex flex-col group hover:shadow-[0_0_30px_rgba(251,171,255,0.15)] transition-all">
+<div class="h-52 w-full relative overflow-hidden bg-surface-container-high">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Orbital terraforming greenhouse satellite station over a lush exoplanet with purple aurora lights, high-tech agricultural telemetry interfaces, cinematic sci-fi render." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAEyPBNzeA1Q0RTLHwQRf-W06YWB-lbKlnoiJrnQp7-L5kZwlSZOMXz35P35UPbulx9Ym7SSU8ljzJj-Zn_qQn3-CEu31-e4Ut6nCz6ittKfxxPy6B7Z9BDhFyGMK2R87J5BpTpFxKicoRX2Ol1uvqUuFskufoJIQRcMbKjj3WJbN3KZGmBmiQMmVqZkUItbTznJkUpmwAKRQ9KqzzhjB2w53XHZ4KA4bFl4azQ0B8B0Vo6h94jcob30g"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-low via-transparent to-transparent"></div>
+<div class="absolute top-4 left-4">
+<span class="px-3 py-1 rounded-full bg-surface-container-lowest/80 backdrop-blur-md text-tertiary font-label-code text-label-code">
+                MISSION // 03 • AGRARIAN_NEXUS
+              </span>
+</div>
+</div>
+<div class="p-space-lg flex-1 flex flex-col justify-between gap-space-md">
+<div class="flex flex-col gap-2">
+<h3 class="font-headline-md text-headline-md font-bold text-on-surface group-hover:text-tertiary transition-colors">
+                CropOzone Agrarian Nexus
+              </h3>
+<p class="font-body-md text-body-md text-on-surface-variant">
+                Full-stack agrarian commerce and resource management platform with multi-role RBAC authorization, PayPal transactional gateways, and Cloudinary media processing nodes.
+              </p>
+<div class="flex flex-wrap gap-1.5 pt-2">
+<span class="px-2.5 py-1 rounded-full bg-surface-container-high text-on-surface font-label-code text-label-code">MERN Stack</span>
+<span class="px-2.5 py-1 rounded-full bg-surface-container-high text-tertiary font-label-code text-label-code">JWT / RBAC</span>
+<span class="px-2.5 py-1 rounded-full bg-surface-container-high text-secondary font-label-code text-label-code">PayPal API</span>
+<span class="px-2.5 py-1 rounded-full bg-surface-container-high text-primary font-label-code text-label-code">Cloudinary</span>
+</div>
+</div>
+<div class="flex items-center justify-between pt-space-sm">
+<a class="inline-flex items-center gap-2 text-on-surface hover:text-tertiary transition-colors font-label-hud text-label-hud" href="https://github.com/SahilPatel8826/CropOzone" rel="noopener noreferrer" target="_blank">
+<span class="material-symbols-outlined text-base">code</span>
+                ACCESS REPOSITORY
+              </a>
+<span class="font-label-code text-label-code text-outline">SECTOR: COMMERCE_GATE</span>
+</div>
+</div>
+</div>
+<!-- Project 04: Finance Dashboard Backend API -->
+<div class="bg-surface-container-low rounded-xl overflow-hidden shadow-xl flex flex-col group hover:shadow-[0_0_30px_rgba(76,215,246,0.15)] transition-all">
+<div class="h-52 w-full relative overflow-hidden bg-surface-container-high">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Interstellar trade financial exchange station inside a massive starship command deck, glowing neon charts and holographic ledger nodes against a dark starfield background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB8N20TGTn88uFuXYibVeMoi4hFf4ugaRiGh06yLMeHZeAMjrfiptZimTi_x-IR0wVCXibQ9Lobliu0TdnX4ObafI8NUA8d38sQUYniDnoIKpKnqym6quyStfegJAzo2CmQE8TBM0qjXNJkVAd_ywKfECVHLm39MpIKFl_NYFLQCywoDc_NiF9zYrvZj8MfuVMiSE7hqhNfEGmHk6pbeCW4o0KBUVt5SCwjqGrSyqOb4ErW08W2D_ORFA"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-low via-transparent to-transparent"></div>
+<div class="absolute top-4 left-4">
+<span class="px-3 py-1 rounded-full bg-surface-container-lowest/80 backdrop-blur-md text-secondary font-label-code text-label-code">
+                MISSION // 04 • LEDGER_CORE
+              </span>
+</div>
+</div>
+<div class="p-space-lg flex-1 flex flex-col justify-between gap-space-md">
+<div class="flex flex-col gap-2">
+<h3 class="font-headline-md text-headline-md font-bold text-on-surface group-hover:text-secondary transition-colors">
+                Finance Dashboard Backend API
+              </h3>
+<p class="font-body-md text-body-md text-on-surface-variant">
+                Enterprise ledger backend powered by Node.js, Express, and MongoDB. Incorporates 3-tier user role permissions, dynamic aggregations, and high-frequency analytical processing.
+              </p>
+<div class="flex flex-wrap gap-1.5 pt-2">
+<span class="px-2.5 py-1 rounded-full bg-surface-container-high text-on-surface font-label-code text-label-code">Node.js / Express</span>
+<span class="px-2.5 py-1 rounded-full bg-surface-container-high text-secondary font-label-code text-label-code">MongoDB Aggregation</span>
+<span class="px-2.5 py-1 rounded-full bg-surface-container-high text-primary font-label-code text-label-code">3-Tier RBAC</span>
+<span class="px-2.5 py-1 rounded-full bg-surface-container-high text-on-surface-variant font-label-code text-label-code">REST Gateway</span>
+</div>
+</div>
+<div class="flex items-center justify-between pt-space-sm">
+<a class="inline-flex items-center gap-2 text-on-surface hover:text-secondary transition-colors font-label-hud text-label-hud" href="https://github.com/SahilPatel8826" rel="noopener noreferrer" target="_blank">
+<span class="material-symbols-outlined text-base">code</span>
+                ACCESS ORBITAL REPO
+              </a>
+<span class="font-label-code text-label-code text-outline">SECTOR: ANALYTICS</span>
+</div>
+</div>
+</div>
+</div>
+<!-- GitHub Activity Telemetry Console -->
+<div class="bg-surface-container-low p-space-lg rounded-xl shadow-lg flex flex-col lg:flex-row items-center justify-between gap-space-lg">
+<div class="flex items-center gap-space-md">
+<div class="w-12 h-12 rounded-xl bg-surface-container-high flex items-center justify-center text-primary shadow-md">
+<span class="material-symbols-outlined text-2xl">insights</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<span class="font-title-lg text-title-lg font-bold text-on-surface">Git Telemetry Radar</span>
+<span class="px-2 py-0.5 rounded-full bg-secondary/10 text-secondary font-label-code text-label-code">NODE: SahilPatel8826</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Continuous integration commits, branch merges, and distributed architectural releases.</p>
+</div>
+</div>
+<div class="flex items-center gap-space-lg">
+<div class="flex flex-col items-center">
+<span class="font-label-code text-label-code text-outline">ACTIVE_REPOS</span>
+<span class="font-title-lg text-title-lg font-bold text-secondary">24</span>
+</div>
+<div class="flex flex-col items-center">
+<span class="font-label-code text-label-code text-outline">STARS_LOGGED</span>
+<span class="font-title-lg text-title-lg font-bold text-primary">38</span>
+</div>
+<div class="flex flex-col items-center">
+<span class="font-label-code text-label-code text-outline">CODE_VELOCITY</span>
+<span class="font-title-lg text-title-lg font-bold text-tertiary">98.4%</span>
+</div>
+<a class="px-4 py-2 rounded-full bg-surface-container-high hover:bg-surface-bright text-on-surface font-label-hud text-label-hud transition-all flex items-center gap-1.5 shadow-sm" href="https://github.com/SahilPatel8826" rel="noopener noreferrer" target="_blank">
+<span>RADAR FEED</span>
+<span class="material-symbols-outlined text-sm">open_in_new</span>
+</a>
+</div>
+</div>
+</div>
+</section>
+<!-- SECTION 5: CONTACT TRANSMISSION TERMINAL -->
+<section class="w-full py-space-2xl relative" id="contact-link">
+<div class="w-full max-w-7xl mx-auto px-margin-mobile md:px-margin flex flex-col gap-space-xl">
+<!-- Section Header -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-space-md">
+<div>
+<div class="flex items-center gap-2 text-secondary mb-1">
+<span class="font-label-code text-label-code tracking-widest">// COMMS ARRAY 0x05</span>
+<span class="h-px w-12 bg-secondary/40"></span>
+</div>
+<h2 class="font-headline-lg text-headline-lg font-bold text-on-surface">
+            Establish Communication
+          </h2>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">
+            Open secure channel for engineering opportunities, system inquiries, or telemetry sync.
+          </p>
+</div>
+<div class="flex items-center gap-space-xs text-outline">
+<span class="font-label-code text-label-code">ENCRYPTION: AES-256-GCM</span>
+</div>
+</div>
+<!-- Terminal Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-lg">
+<!-- Left Column: Comms Console Form -->
+<div class="lg:col-span-7 bg-surface-container-low p-space-lg md:p-space-xl rounded-xl shadow-xl flex flex-col gap-space-md">
+<div class="flex items-center justify-between pb-space-xs">
+<span class="font-label-code text-label-code text-secondary tracking-widest">// TRANSMISSION PROTOCOL: v2.4</span>
+<span class="flex items-center gap-1.5 text-on-surface-variant font-label-code text-label-code">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+              PORT: 443_SSL
+            </span>
+</div>
+<form class="flex flex-col gap-space-md" id="transmission-form" onsubmit="event.preventDefault(); simulateTransmit();">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-space-md">
+<div class="flex flex-col gap-1.5">
+<label class="font-label-code text-label-code text-on-surface-variant" for="caller-sign">CALL SIGN (FULL NAME)</label>
+<input class="w-full bg-surface-container px-4 py-3 rounded-lg text-on-surface font-body-md text-body-md focus:bg-surface-container-high focus:outline-none focus:ring-1 focus:ring-secondary transition-all" id="caller-sign" placeholder="Commander Alex Vance" required="" type="text"/>
+</div>
+<div class="flex flex-col gap-1.5">
+<label class="font-label-code text-label-code text-on-surface-variant" for="caller-freq">FREQUENCY (EMAIL ADDRESS)</label>
+<input class="w-full bg-surface-container px-4 py-3 rounded-lg text-on-surface font-body-md text-body-md focus:bg-surface-container-high focus:outline-none focus:ring-1 focus:ring-secondary transition-all" id="caller-freq" placeholder="alex@interstellar.net" required="" type="email"/>
+</div>
+</div>
+<div class="flex flex-col gap-1.5">
+<label class="font-label-code text-label-code text-on-surface-variant" for="dispatch-priority">PRIORITY DISPATCH LEVEL</label>
+<select class="w-full bg-surface-container px-4 py-3 rounded-lg text-on-surface font-body-md text-body-md focus:bg-surface-container-high focus:outline-none focus:ring-1 focus:ring-secondary transition-all" id="dispatch-priority">
+<option value="standard">STANDARD DISPATCH (General Consultation)</option>
+<option value="high">URGENT RADAR (Full-Time Engineering Mission)</option>
+<option value="priority">MISSION CRITICAL (Contract / Architecture Advisory)</option>
+</select>
+</div>
+<div class="flex flex-col gap-1.5">
+<label class="font-label-code text-label-code text-on-surface-variant" for="directive-body">DIRECTIVE (MESSAGE PAYLOAD)</label>
+<textarea class="w-full bg-surface-container px-4 py-3 rounded-lg text-on-surface font-body-md text-body-md focus:bg-surface-container-high focus:outline-none focus:ring-1 focus:ring-secondary transition-all resize-none" id="directive-body" placeholder="Initiating contact regarding high-throughput distributed system role..." required="" rows="4"></textarea>
+</div>
+<button class="w-full py-4 rounded-full bg-primary-container text-on-primary-container font-label-hud text-label-hud tracking-widest uppercase hover:shadow-[0_0_30px_rgba(160,120,255,0.6)] transition-all flex items-center justify-center gap-2 mt-2" id="transmit-btn" type="submit">
+<span class="material-symbols-outlined text-base">send</span>
+              TRANSMIT FREQUENCY BEACON
+            </button>
+<div class="hidden p-3 rounded-lg bg-surface-container-high text-secondary font-label-code text-label-code text-center" id="transmit-alert">
+              [BEACON_TRANSMITTED]: Transmission logged. Signals dispatch will acknowledge shortly.
+            </div>
+</form>
+</div>
+<!-- Right Column: Transceiver Hub & Comms Links -->
+<div class="lg:col-span-5 flex flex-col gap-space-md">
+<!-- Channels Directory -->
+<div class="bg-surface-container-low p-space-lg rounded-xl shadow-lg flex flex-col gap-space-md">
+<span class="font-label-code text-label-code text-outline tracking-widest">// VERIFIED CHANNELS</span>
+<a class="flex items-center justify-between p-3.5 rounded-lg bg-surface-container hover:bg-surface-container-high transition-colors group" href="https://github.com/SahilPatel8826" rel="noopener noreferrer" target="_blank">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-primary text-xl">terminal</span>
+<div class="flex flex-col">
+<span class="font-title-lg text-title-lg text-on-surface font-bold">GitHub Archive</span>
+<span class="font-label-code text-label-code text-on-surface-variant">@SahilPatel8826</span>
+</div>
+</div>
+<span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors">arrow_outward</span>
+</a>
+<a class="flex items-center justify-between p-3.5 rounded-lg bg-surface-container hover:bg-surface-container-high transition-colors group" href="https://linkedin.com/in/sahilpatel8826" rel="noopener noreferrer" target="_blank">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-secondary text-xl">lan</span>
+<div class="flex flex-col">
+<span class="font-title-lg text-title-lg text-on-surface font-bold">LinkedIn Relay</span>
+<span class="font-label-code text-label-code text-on-surface-variant">in/sahilpatel8826</span>
+</div>
+</div>
+<span class="material-symbols-outlined text-outline group-hover:text-secondary transition-colors">arrow_outward</span>
+</a>
+<a class="flex items-center justify-between p-3.5 rounded-lg bg-surface-container hover:bg-surface-container-high transition-colors group" href="mailto:sahilpatel8826@gmail.com">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-tertiary text-xl">mail</span>
+<div class="flex flex-col">
+<span class="font-title-lg text-title-lg text-on-surface font-bold">Direct Transceiver</span>
+<span class="font-label-code text-label-code text-on-surface-variant">sahilpatel8826@gmail.com</span>
+</div>
+</div>
+<span class="material-symbols-outlined text-outline group-hover:text-tertiary transition-colors">arrow_outward</span>
+</a>
+<a class="flex items-center justify-between p-3.5 rounded-lg bg-surface-container hover:bg-surface-container-high transition-colors group" href="https://leetcode.com" rel="noopener noreferrer" target="_blank">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-secondary-fixed text-xl">code_blocks</span>
+<div class="flex flex-col">
+<span class="font-title-lg text-title-lg text-on-surface font-bold">LeetCode Telemetry</span>
+<span class="font-label-code text-label-code text-on-surface-variant">Algorithms &amp; System Patterns</span>
+</div>
+</div>
+<span class="material-symbols-outlined text-outline group-hover:text-secondary-fixed transition-colors">arrow_outward</span>
+</a>
+</div>
+<!-- Deep Space Node Badge -->
+<div class="bg-surface-container-high p-space-md rounded-xl shadow-md flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<span class="w-3 h-3 rounded-full bg-secondary animate-ping"></span>
+<div class="flex flex-col">
+<span class="font-label-code text-label-code text-on-surface">SYS_BEACON: BROADCASTING</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Noida / New Delhi Sector Node</span>
+</div>
+</div>
+<span class="font-label-code text-label-code text-secondary font-bold">ACK: READY</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Interactive Client-side Scripting -->
+<script>
+    function updateChrono() {
+      const now = new Date();
+      const h = String(now.getUTCHours()).padStart(2, '0');
+      const m = String(now.getUTCMinutes()).padStart(2, '0');
+      const s = String(now.getUTCSeconds()).padStart(2, '0');
+      const el = document.getElementById('live-chronometer');
+      if (el) el.textContent = `UTC: ${h}:${m}:${s}`;
+    }
+    setInterval(updateChrono, 1000);
+    updateChrono();
+
+    function simulateTransmit() {
+      const btn = document.getElementById('transmit-btn');
+      const alertBox = document.getElementById('transmit-alert');
+      if (!btn || !alertBox) return;
+      btn.disabled = true;
+      btn.innerHTML = `<span class="material-symbols-outlined text-base animate-spin">refresh</span> TRANSMITTING BEACON...`;
+      setTimeout(() => {
+        btn.innerHTML = `<span class="material-symbols-outlined text-base">check_circle</span> TRANSMISSION COMPLETE`;
+        btn.classList.remove('bg-primary-container');
+        btn.classList.add('bg-secondary-container', 'text-on-secondary-container');
+        alertBox.classList.remove('hidden');
+      }, 1200);
+    }
+
+    // SPHERICAL WARP & SPACESHIP TRAJECTORY ENGINE
+    let isWarping = false;
+    function triggerGalaxyWarp() {
+      if (isWarping) return;
+      isWarping = true;
+
+      const ship = document.getElementById('scout-spaceship');
+      const flare = document.getElementById('ship-exhaust-flare');
+      const trail = document.getElementById('ship-hyperspeed-trail');
+      const flash = document.getElementById('singularity-flash');
+      const bh = document.getElementById('black-hole-entity');
+      const warpBtn = document.getElementById('btn-warp-travel');
+      const banner = document.getElementById('warp-notification-banner');
+
+      // Update button state
+      if (warpBtn) {
+        warpBtn.innerHTML = `
+          <span class="material-symbols-outlined text-secondary text-2xl animate-spin">cyclone</span>
+          <span class="font-bold text-sm tracking-widest text-secondary">WARPING SINGULARITY...</span>
+          <span class="material-symbols-outlined text-tertiary text-lg animate-ping">speed</span>
+        `;
+      }
+
+      // Step 1: Engage Ion Thruster Overdrive
+      ship.classList.remove('ship-idle-animation');
+      ship.style.transition = 'all 0.5s ease-out';
+      if (flare) {
+        flare.style.height = '70px';
+        flare.style.width = '14px';
+        flare.style.background = 'linear-gradient(to bottom, #4cd7f6, #fbabff, transparent)';
+        flare.style.filter = 'drop-shadow(0 0 15px #4cd7f6)';
+      }
+      if (trail) {
+        trail.style.opacity = '1';
+        trail.style.height = '120px';
+      }
+
+      // Step 2: Accelerate along relativistic curved slingshot trajectory towards Black Hole
+      setTimeout(() => {
+        ship.style.transition = 'all 1.6s cubic-bezier(0.25, 1, 0.5, 1)';
+        ship.style.transform = 'translate(140px, -110px) rotate(48deg) scale(0.9)';
+      }, 350);
+
+      // Step 3: Event Horizon Infall - Spiraling, redshift stretch, gravitational contraction
+      setTimeout(() => {
+        ship.style.transition = 'all 1.2s cubic-bezier(0.55, 0.055, 0.675, 0.19)';
+        ship.style.transform = 'translate(260px, -230px) rotate(380deg) scale(0.08)';
+        ship.style.filter = 'hue-rotate(180deg) brightness(2)';
+        ship.style.opacity = '0.1';
+        if (bh) {
+          bh.style.transform = 'scale(1.28)';
+        }
+      }, 1950);
+
+      // Step 4: Singularity Compression & Hyperspace Flash Wave
+      setTimeout(() => {
+        if (flash) {
+          flash.style.opacity = '1';
+          flash.style.transform = 'scale(2.2)';
+        }
+      }, 3000);
+
+      // Step 5: Cosmic Gateway re-emergence into the Galaxy Zone
+      setTimeout(() => {
+        if (flash) {
+          flash.style.opacity = '0';
+          flash.style.transform = 'scale(1)';
+        }
+        if (bh) {
+          bh.style.transform = 'scale(1)';
+        }
+
+        // Show HUD Notification
+        if (banner) {
+          banner.classList.remove('opacity-0', 'scale-90', 'translate-y-[-20px]');
+          banner.classList.add('opacity-100', 'scale-100', 'translate-y-0');
+        }
+
+        // Re-emerge scout ship with shockwave stabilization
+        ship.style.transition = 'none';
+        ship.style.transform = 'translate(-30px, 40px) scale(0.1) rotate(-15deg)';
+        ship.style.filter = 'drop-shadow(0 0 30px #fbabff) brightness(1.8)';
+        ship.style.opacity = '0';
+
+        setTimeout(() => {
+          ship.style.transition = 'all 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+          ship.style.transform = 'translate(0px, 0px) scale(1) rotate(0deg)';
+          ship.style.opacity = '1';
+          ship.style.filter = 'drop-shadow(0 0 16px rgba(76,215,246,0.7))';
+          if (flare) {
+            flare.style.height = '10px';
+            flare.style.width = '6px';
+            flare.style.background = 'linear-gradient(to bottom, #4cd7f6, rgba(208,188,255,0.8), transparent)';
+            flare.style.filter = 'none';
+          }
+          if (trail) {
+            trail.style.opacity = '0';
+            trail.style.height = '0px';
+          }
+        }, 100);
+      }, 3400);
+
+      // Step 6: Complete cycle, restore idle cruise, and reset button
+      setTimeout(() => {
+        ship.classList.add('ship-idle-animation');
+        if (banner) {
+          setTimeout(() => {
+            banner.classList.remove('opacity-100', 'scale-100', 'translate-y-0');
+            banner.classList.add('opacity-0', 'scale-90', 'translate-y-[-20px]');
+          }, 4500);
+        }
+
+        if (warpBtn) {
+          warpBtn.innerHTML = `
+            <span class="material-symbols-outlined text-secondary text-2xl group-hover:rotate-180 transition-transform duration-700 animate-pulse">rocket</span>
+            <span class="font-bold text-sm tracking-widest text-secondary group-hover:text-primary transition-colors">TRAVEL TO MY GALAXY</span>
+            <span class="material-symbols-outlined text-tertiary text-lg group-hover:translate-x-1 transition-transform">bolt</span>
+          `;
+        }
+        isWarping = false;
+      }, 4800);
+    }
+  </script>
+</div></main><footer class="w-full bg-surface-container-lowest py-space-xl shadow-[0_-1px_12px_rgba(0,0,0,0.5)]"><div class="w-full px-margin flex flex-col md:flex-row items-center justify-between gap-space-lg"><div class="flex flex-col items-center md:items-start gap-1"><div class="flex items-center gap-space-xs"><span class="font-title-lg text-title-lg tracking-tight uppercase text-on-surface">SAHIL</span><span class="font-label-code text-label-code text-outline">/// SYS_ID: 0x7E3</span></div><p class="font-body-sm text-body-sm text-on-surface-variant">Distributed Systems · High-Throughput Engines · Cloud Infrastructure</p></div><div class="flex items-center gap-space-md"><a class="font-label-code text-label-code text-on-surface-variant hover:text-secondary transition-colors" data-path="portfolio-core" href="#">INDEX</a><span class="text-outline-variant">•</span><a class="font-label-code text-label-code text-on-surface-variant hover:text-secondary transition-colors" data-path="projects-grid" href="#">ARCHIVES</a><span class="text-outline-variant">•</span><a class="font-label-code text-label-code text-on-surface-variant hover:text-secondary transition-colors" data-path="contact-link" href="#">COMMS</a></div><div class="flex flex-col items-center md:items-end gap-1"><span class="font-label-code text-label-code text-outline">© 2024 DEEP_SPACE_NODE. ALL CHANNELS SECURED.</span><div class="flex items-center gap-space-xs text-secondary"><span class="w-1.5 h-1.5 rounded-full bg-secondary"></span><span class="font-label-code text-label-code uppercase tracking-wider">LATENCY: 12MS</span></div></div></div></footer></body></html>
