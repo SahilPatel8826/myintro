@@ -317,21 +317,7 @@ export const Hero: React.FC<HeroProps> = ({ onReplayIntro }) => {
               <div className="absolute inset-0 bg-gradient-to-tr from-space-950/90 via-transparent to-hud-cyan/30" />
 
               {/* Foreground Astronaut Overlooking Earth */}
-              <div className="relative w-48 h-48 sm:w-56 sm:h-56 rounded-2xl overflow-hidden border border-hud-cyan/50 shadow-[0_0_30px_rgba(0,240,255,0.4)] backdrop-blur-md">
-                <img
-                  src={PORTFOLIO_CONTENT.personal.astronautImage}
-                  alt="Astronaut Overlooking Earth"
-                  loading="lazy"
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-purple-500/10" />
-
-                {/* Astronaut Visor Reflection Tag */}
-                <div className="absolute bottom-2 left-2 right-2 px-2 py-1 rounded bg-slate-950/80 backdrop-blur-md border border-hud-cyan/30 text-[9px] font-mono text-hud-cyan flex items-center justify-between">
-                  <span>ORBIT_ALT: 420KM</span>
-                  <span className="text-emerald-400 font-bold">100% QUORUM</span>
-                </div>
-              </div>
+             
             </div>
 
             {/* INTERACTIVE HIGH-TECH SCOUT SPACESHIP (Sahil-01) */}
