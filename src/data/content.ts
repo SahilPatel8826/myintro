@@ -62,12 +62,12 @@ export const PORTFOLIO_CONTENT = {
     introGreeting: "Hi, I'm Sahil Patel",
     role: ' Full Stack Developer | Golang | Javascript | Node',
     callsign: 'CALLSIGN: SAHIL // SYS_ENGINEER',
-    title: 'Backend & Full Stack Developer',
+    title: 'Full Stack Developer | Go | Node',
     stackHighlight: 'Golang • Node.js • Distributed Systems',
     missionStatement:
       'Building concurrent Go services, real-time systems, and full stack web platforms that stay fast and reliable under load.',
-    location: 'Noida / New Delhi, India',
-    academicSpec: 'B.TECH CSE (2022–2026) • SECTOR: NOIDA / NEW DELHI',
+    location: 'New Delhi, India',
+    academicSpec: 'B.TECH CSE (2022–2026) • SECTOR: NEW DELHI',
     email: 'sahilpatel8826@gmail.com',
     phone: '+91 8303051574',
     resumeUrl:
@@ -78,12 +78,12 @@ export const PORTFOLIO_CONTENT = {
   },
 
   navigation: [
-    { label: 'HERO', href: '#hero', tag: '01' },
-    { label: 'ABOUT', href: '#about', tag: '02' },
-    { label: 'SKILLS', href: '#skills', tag: '03' },
-    { label: 'EXPERIENCE', href: '#experience', tag: '04' },
-    { label: 'PROJECTS', href: '#projects', tag: '05' },
-    { label: 'CONTACT', href: '#contact', tag: '06' },
+    // { label: 'HERO', href: '#hero', tag: '01' },
+    { label: 'ABOUT', href: '#about', tag: '01' },
+    { label: 'SKILLS', href: '#skills', tag: '02' },
+    { label: 'EXPERIENCE', href: '#experience', tag: '03' },
+    { label: 'PROJECTS', href: '#projects', tag: '04' },
+    { label: 'CONTACT', href: '#contact', tag: '05 ' },
   ] as NavItem[],
 
   heroStats: [

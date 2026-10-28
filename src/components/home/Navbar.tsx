@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Terminal, Play, Github, Linkedin } from 'lucide-react';
 import { PORTFOLIO_CONTENT } from '../../data/content';
+import { ProfileReveal } from './ProfileReveal';
 
 interface NavbarProps {
   onReplayIntro: () => void;
@@ -9,6 +10,16 @@ interface NavbarProps {
 export const Navbar: React.FC<NavbarProps> = ({ onReplayIntro }) => {
   const [activeSection, setActiveSection] = useState<string>('hero');
   const [scrollProgress, setScrollProgress] = useState<number>(0);
+  const [profileOpen, setProfileOpen] = useState<boolean>(false);
+  const [origin, setOrigin] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
+  const avatarRef = useRef<HTMLButtonElement>(null);
+
+  const openProfile = () => {
+    const r = avatarRef.current?.getBoundingClientRect();
+    if (r) setOrigin({ x: r.left + r.width / 2, y: r.top + r.height / 2 });
+    setProfileOpen(true);
+  };
+  const closeProfile = useCallback(() => setProfileOpen(false), []);
 
   // Track active section and scroll progress
   useEffect(() => {
@@ -120,7 +131,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onReplayIntro }) => {
               <Github className="w-4 h-4" />
             </a>
             <a
-              href="https://linkedin.com/in/sahilpatel8826"
+              href="https://www.linkedin.com/in/sahil-patel-9264b6397/"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="LinkedIn Profile"
@@ -130,14 +141,25 @@ export const Navbar: React.FC<NavbarProps> = ({ onReplayIntro }) => {
             </a>
           </div>
 
-          {/* Avatar Profile */}
-          <img
-            src={PORTFOLIO_CONTENT.personal.avatar}
-            alt="Sahil Profile"
-            className="w-8 h-8 rounded-full object-cover border border-hud-cyan/50 shadow-[0_0_10px_rgba(0,240,255,0.3)] hidden sm:block"
-          />
+          {/* Avatar Profile: click to reveal */}
+          <button
+            ref={avatarRef}
+            onClick={openProfile}
+            aria-label="Open profile"
+            title="View profile"
+            className="group relative h-9 w-9 shrink-0 cursor-pointer rounded-full"
+          >
+            <span className="absolute -inset-1 rounded-full border border-hud-cyan/60 animate-ping opacity-40" />
+            <img
+              src={PORTFOLIO_CONTENT.personal.astronautImage}
+              alt="Sahil Profile"
+              className="relative h-9 w-9 rounded-full object-cover border border-hud-cyan/60 shadow-[0_0_10px_rgba(0,240,255,0.3)] transition-all group-hover:scale-110 group-hover:shadow-[0_0_18px_rgba(0,240,255,0.7)]"
+            />
+          </button>
         </div>
       </div>
+
+      <ProfileReveal open={profileOpen} origin={origin} onClose={closeProfile} />
 
       {/* Pulsing Scanline Accent Line */}
       <div className="w-full h-0.5 bg-slate-800 relative overflow-hidden">
