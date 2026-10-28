@@ -1,7 +1,8 @@
+
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Terminal, Network, Database, Cloud, Zap, Cpu } from 'lucide-react';
-import { PORTFOLIO_CONTENT, SkillCategory } from '../../data/content';
+import { Terminal, Network, Database, Cloud, Zap } from 'lucide-react';
+import { PORTFOLIO_CONTENT } from '../../data/content';
 
 export const SkillsSection: React.FC = () => {
   const getIcon = (iconName: string) => {
@@ -19,41 +20,33 @@ export const SkillsSection: React.FC = () => {
     }
   };
 
-  const getAccentColor = (accent: string) => {
-    switch (accent) {
-      case 'cyan':
-        return 'text-hud-cyan bg-hud-cyan';
-      case 'teal':
-        return 'text-hud-teal bg-hud-teal';
-      case 'amber':
-        return 'text-hud-amber bg-hud-amber';
-      case 'orange':
-        return 'text-hud-orange bg-hud-orange';
-      default:
-        return 'text-hud-cyan bg-hud-cyan';
-    }
-  };
-
   return (
-    <section id="skills" className="w-full py-24 bg-space-950 border-t border-slate-900 relative">
+    <section
+      id="skills"
+      className="relative w-full py-24 bg-transparent border-t border-slate-400/15"
+    >
       <div className="w-full max-w-7xl mx-auto px-4 sm:px-8 flex flex-col gap-12">
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
           <div>
             <div className="flex items-center gap-2 text-hud-teal mb-2 font-mono text-xs">
-              <span className="tracking-widest">// PAYLOAD CALIBRATION 0x03</span>
+              <span className="tracking-widest">
+                // PAYLOAD CALIBRATION 0x03
+              </span>
               <span className="h-px w-12 bg-hud-teal/40" />
             </div>
-            <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight">
+
+            <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight drop-shadow-lg">
               Technical Arsenal
             </h2>
           </div>
-          <p className="font-mono text-xs text-slate-400">
+
+          <p className="font-mono text-xs text-slate-300 drop-shadow-md">
             ORBITAL RADAR: 4 DISCRETE ENGINE SUBSYSTEMS
           </p>
         </div>
 
-        {/* 4 Orbital Skill Arrays */}
+        {/* Orbital Skill Arrays */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {PORTFOLIO_CONTENT.skillCategories.map((category, idx) => (
             <motion.div
@@ -62,23 +55,29 @@ export const SkillsSection: React.FC = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: idx * 0.1 }}
-              whileHover={{ y: -6, transition: { duration: 0.2 } }}
-              className="bg-surface-container-low p-6 rounded-2xl border border-slate-800/80 hover:border-hud-cyan/40 shadow-lg hover:shadow-[0_0_25px_rgba(0,240,255,0.12)] transition-all flex flex-col justify-between group"
+              whileHover={{
+                y: -6,
+                transition: { duration: 0.2 },
+              }}
+              className="bg-slate-950/65 backdrop-blur-[3px] p-6 rounded-2xl border border-slate-400/20 hover:border-hud-cyan/50 shadow-lg hover:shadow-[0_0_25px_rgba(0,240,255,0.12)] transition-all flex flex-col justify-between group"
             >
               <div>
+                {/* Card Header */}
                 <div className="flex items-center justify-between mb-4">
-                  <div className="w-10 h-10 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-center group-hover:border-hud-cyan/40 transition-colors">
+                  <div className="w-10 h-10 rounded-xl bg-slate-950/60 border border-slate-400/20 flex items-center justify-center group-hover:border-hud-cyan/40 transition-colors">
                     {getIcon(category.icon)}
                   </div>
-                  <span className="font-mono text-[10px] text-slate-400 tracking-wider">
+
+                  <span className="font-mono text-[10px] text-slate-300 tracking-wider">
                     {category.id}
                   </span>
                 </div>
 
-                <h3 className="font-display text-xl font-bold text-white group-hover:text-hud-cyan transition-colors">
+                <h3 className="font-display text-xl font-bold text-white group-hover:text-hud-cyan transition-colors drop-shadow-md">
                   {category.title}
                 </h3>
-                <p className="font-sans text-xs text-slate-400 mt-1 mb-6 leading-relaxed">
+
+                <p className="font-sans text-xs text-slate-300 mt-1 mb-6 leading-relaxed">
                   {category.desc}
                 </p>
 
@@ -87,15 +86,25 @@ export const SkillsSection: React.FC = () => {
                   {category.skills.map((skill) => (
                     <div key={skill.name}>
                       <div className="flex justify-between items-center mb-1 text-[11px]">
-                        <span className="text-slate-200">{skill.name}</span>
-                        <span className="font-bold text-hud-cyan">{skill.pct}%</span>
+                        <span className="text-slate-100">
+                          {skill.name}
+                        </span>
+
+                        <span className="font-bold text-hud-cyan">
+                          {skill.pct}%
+                        </span>
                       </div>
-                      <div className="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden">
+
+                      <div className="w-full h-1.5 bg-slate-800/80 rounded-full overflow-hidden">
                         <motion.div
                           initial={{ width: 0 }}
                           whileInView={{ width: `${skill.pct}%` }}
                           viewport={{ once: true }}
-                          transition={{ duration: 1.2, ease: 'easeOut', delay: 0.2 }}
+                          transition={{
+                            duration: 1.2,
+                            ease: 'easeOut',
+                            delay: 0.2,
+                          }}
                           className={`h-full ${
                             category.accent === 'cyan'
                               ? 'bg-hud-cyan shadow-[0_0_8px_rgba(0,240,255,0.6)]'
@@ -112,10 +121,13 @@ export const SkillsSection: React.FC = () => {
                 </div>
               </div>
 
-              {/* Floating micro chip */}
-              <div className="mt-6 pt-4 border-t border-slate-800/80 flex items-center justify-between text-[10px] font-mono text-slate-400">
+              {/* Footer Status */}
+              <div className="mt-6 pt-4 border-t border-slate-400/15 flex items-center justify-between text-[10px] font-mono text-slate-300">
                 <span>RADAR CALIBRATION</span>
-                <span className="text-emerald-400 font-semibold">OPTIMAL</span>
+
+                <span className="text-emerald-400 font-semibold">
+                  OPTIMAL
+                </span>
               </div>
             </motion.div>
           ))}

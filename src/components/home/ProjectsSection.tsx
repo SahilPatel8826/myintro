@@ -8,7 +8,7 @@ export const ProjectsSection: React.FC = () => {
   const [showArchitecture, setShowArchitecture] = useState<boolean>(false);
 
   return (
-    <section id="projects" className="w-full py-24 bg-space-950 border-t border-slate-900 relative">
+ <section id="projects" className="w-full py-24 bg-transparent border-t border-slate-700/20 relative">
       <div className="w-full max-w-7xl mx-auto px-4 sm:px-8 flex flex-col gap-12">
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">

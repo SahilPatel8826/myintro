@@ -180,9 +180,9 @@ export const Hero: React.FC<HeroProps> = ({ onReplayIntro }) => {
           {/* Role Badge: "A Full Stack & Golang Developer" */}
           <div className="bg-gradient-to-r from-slate-900/90 via-surface-container/90 to-slate-900/90 backdrop-blur-xl px-5 py-3 rounded-2xl border border-hud-cyan/30 shadow-[0_0_20px_rgba(0,240,255,0.08)]">
             <div className="flex items-center gap-2.5">
-              <Sparkles className="w-4 h-4 text-hud-cyan animate-pulse" />
+              {/* <Sparkles className="w-4 h-4 text-hud-cyan animate-pulse" /> */}
               <p className="font-mono text-sm sm:text-base text-slate-100 font-semibold tracking-wide">
-                Role: <span className="text-hud-cyan">{PORTFOLIO_CONTENT.personal.role}</span>
+               <span className="text-hud-cyan">{PORTFOLIO_CONTENT.personal.role}</span>
               </p>
             </div>
           </div>
